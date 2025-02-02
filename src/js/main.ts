@@ -28,7 +28,9 @@ const alphabet = [
 ];
 
 const base = 65;
-const sequence: string[] = [
+let keyE = "A";
+let keyD = "A";
+const sequenceMap: string[] = [
   "AZ",
   "BV",
   "CR",
@@ -79,9 +81,40 @@ const shifts: number[] = [
 // console.log(sequence);
 
 // test encoding
-alphabet.forEach((letter) => {
-  const charCode = letter.charCodeAt(0);
-  const i = charCode - base;
-  const pass = String.fromCharCode(charCode + shifts[i]);
-  console.log(`${letter} => ${pass}`);
-});
+// alphabet.forEach((letter) => {
+//   const charCode = letter.charCodeAt(0);
+//   const i = charCode - base;
+//   const pass = String.fromCharCode(charCode + shifts[i]);
+//   console.log(`${letter} => ${pass}`);
+// });
+
+function permute(arr: string[]): string[][] {
+  let result: string[][] = [];
+
+  if (arr.length == 0) {
+    return [[]];
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    let current = arr[i];
+    let remaining = arr.slice(0, i).concat(arr.slice(i + 1));
+    let remainingPermutations = permute(remaining);
+    for (let permutation of remainingPermutations) {
+      result.push([current].concat(permutation));
+    }
+  }
+
+  return result;
+}
+
+// test permute
+let permuteArr = ["a", "b", "c"];
+let permutations = permute(permuteArr);
+console.log(permutations);
+
+const sequenceX = "ZVRUWASQBLOJXTPGCFIMKNDYEH";
+const sequences: string[] = ["ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+let newSequence = sequences[0];
+
+// const aPermutations = permute(alphabet);
+// console.log(aPermutations);
